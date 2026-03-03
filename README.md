@@ -177,7 +177,7 @@ Flag = IF(CALCULATE(DISTINCTCOUNT(superstore[Customer ID]), ALLEXCEPT(superstore
 This `Flag` column can later be used as a legend to distinguish customer names that have only one ID from those shared by multiple IDs. In this dataset, the name `Harry Olson` is shared by 5 different customers.
 
 ### Sum of Profit
-The sum of profit is investigated against customers, segments, states, and categories. The query used is similar, with one of example given below:
+The sum of profit is analyzed across customers, segments, states, and categories. The query used is similar in each case, with one example shown below:
 
 ```sql
 SELECT Customer_Name, SUM(Profit) AS Profits
@@ -200,10 +200,44 @@ ORDER BY Profits DESC;
 | Grant Thornton         | -4108.6589          |
 | Cindy Stewart          | -6626.3895          |
 
-Although `William Brown` has the highest number of orders, he didn't generate the most profit to the superstore. In fact, the sum of profit contributed by `William Brown` is $692.39.  
+Although `William Brown` has the highest number of orders, he did not generate the most profit for the superstore. In fact, the total profit contributed by `William Brown` is only $692.39.  
 
-From the result, `Tamara Chand` generated the most profit ($8981.3239) which only has 12 orders. 10 orders are Office Supplies and the remaining 2 are Technology, however, the Office Supplies orders only generate $397.09 and Technology orders generate the remaining $8584.2339.
+From the results, `Tamara Chand` generated the highest profit ($8981.3239) with only 12 orders. 10 of these orders are from Office Supplies, and the remaining 2 are from Technology. However, the Office Supplies orders generated only $397.09, while the Technology orders generated the remaining $8584.2339.
 
-On the other hand, `Cindy Stewart` generated the largest loss ($6626.3895) with 9 orders. 6 orders are Office Supplies and the others are Technology. Similarly, the Office Supplies orders cost $228.49 and the Technology orders cost $6397.8995.
+On the other hand, `Cindy Stewart` generated the largest loss ($6626.3895) with 9 orders. 6 of these orders are from Office Supplies, and the remaining 3 are from Technology. Similarly, the Office Supplies orders resulted in a loss of $228.49, while the Technology orders resulted in a loss of $6397.8995.
 
-Based on the two results, it seems that Technology orders can either bring large profit or huge loss. 
+Based on the results, it appears that Technology orders can generate either huge profits or significant losses. This may be due to the high sales prices of the items. Thus, the following query is used to identify the minimum and maximum sales values for each sub-category within Technology:
+
+```sql
+SELECT Sub_Category, MIN(Sales), MAX(Sales)
+FROM superstore
+WHERE Category = 'Technology'
+GROUP BY Sub_Category;
+```
+
+| Sub_Category | MIN(Sales) | MAX(Sales) |
+|--------------|------------|------------|
+| Phones       | 2.21       | 4548.81    |
+| Accessories  | 0.99       | 3347.37    |
+| Machines     | 11.56      | 22638.48   |
+| Copiers      | 17.28      | 17499.95   |
+
+The results show that Machines and Copiers can reach maximum sales values in the tens of  thousands. Therefore, if large discounts are applied to these items, the superstore may suffer a huge loss.
+
+### Regional Managers
+A new table is created which store the information about regional manager. The following query is used:
+
+```sql
+CREATE TABLE IF NOT EXISTS manager (
+    Region VARCHAR(10) PRIMARY KEY,
+    Manager TEXT
+);
+
+INSERT INTO manager
+VALUES	('West', 'Sadie Pawthorne'),
+		('East', 'Chuck Magee'),
+        ('Central', 'Roxanne Rodriguez'),
+        ('South', 'Fred Suzuki');
+```
+
+The `manager` table has `Region` as its primary key, which can be joined with the `superstore` table for deeper analysis.
