@@ -240,4 +240,25 @@ VALUES	('West', 'Sadie Pawthorne'),
         ('South', 'Fred Suzuki');
 ```
 
-The `manager` table has `Region` as its primary key, which can be joined with the `superstore` table for deeper analysis.
+The `manager` table has `Region` as its primary key, which can be joined with the `superstore` table for deeper analysis.  
+
+First, the orders handled by each manager is obtained using the following query:
+
+```sql
+SELECT Manager, COUNT(*) AS Count
+FROM manager
+JOIN superstore
+ON manager.Region = superstore.Region
+GROUP BY superstore.Region;
+```
+
+| Manager           | Count |
+|-------------------|-------|
+| Roxanne Rodriguez | 2335  |
+| Chuck Magee       | 2986  |
+| Fred Suzuki       | 1620  |
+| Sadie Pawthorne   | 3253  |
+
+The results show that Sadie Pawthorne, the west region manager handled the most orders. This is expected since in the previous query about count of orders by state and region, it is known that California has the highest number of orders, and California is in west region of United States.  
+
+In addition, since New York has the second highest number of orders, the east region manager, Chuck Magee had handled the second most orders. 
