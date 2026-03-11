@@ -371,7 +371,6 @@ ORDER BY Manager, Sub_Category;
 | Sadie Pawthorne   | Tables       | 1515.6493           |
 
 
-For the Bookcases sub-category, only `Chuck Magee` recorded a profit, the others recorded a loss.  
-
-For Chairs, everyone recorded a profit. For Furnishings, everyone except `Roxanne Rodriguez` 
-
+From the results, `Fred Suzuki` and `Sadie Pawthorne` recorded a loss in only one of the sub-categories.  
+`Chuck Magee` recorded a loss in `Bookcases` and the highest loss in `Table` in the Furniture category. However, `Chuck Magee` also recorded the highest profit in the Furniture category, in `Chairs`. Thus, the loss is compensated by the profit and `Chuck Magee` successfully recorded a overall profit in the Furniture category.  
+`Roxanne Rodriguez` only recorded a profit in `Chairs` and the profit is not enough to cover
